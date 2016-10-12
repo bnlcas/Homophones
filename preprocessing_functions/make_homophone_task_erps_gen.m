@@ -58,10 +58,10 @@ end
 % load list of words
 % loads homophone_list_full
 % col 1 - dominant sense, col 2 - subordinant sense, col 3 - homophone
-dpath = strsplit(evnt(1).dpath,'/');
-base_dir = strjoin(dpath(1:(end-2)),'/');
+dpath = strsplit(evnt(1).dpath, filesep);
+base_dir = strjoin(dpath(1:(end-2)),filesep);
 %load('/Users/changlab/Documents/changrepo/matlab/analysis/Homophones/Homophone_Prime_Exp_6/WordLists/homophone_list_full.mat')
-load([base_dir filesep 'behavior/homophone_list_full.mat']);
+load([base_dir filesep 'behavior' filesep 'homophone_list_full.mat']);
 
 
 
@@ -78,8 +78,8 @@ end
 
 %% Generate ECoG ERPs
 %subj_dir = '/Users/changlab/Documents/data/EC123/data';
-tmp = strsplit(evnt(1).dpath,'/');
-subj_dir = strjoin(tmp(1:(end-1)),'/');
+tmp = strsplit(evnt(1).dpath, filesep);
+subj_dir = strjoin(tmp(1:(end-1)), filesep);
 %evnt = convert_dpaths_local(evnt)
 
 time_win = [-2 4]; % set up time range for each erp
@@ -167,7 +167,7 @@ ch_perblock = 64;
 data = [];
 for i = 1:blocks
     for j = 1:ch_perblock
-        [ecog_ch, fs] = readhtk([hg_dir '/Wav' num2str(i) num2str(j) '.htk'], 1000*time_range);
+        [ecog_ch, fs] = readhtk([hg_dir filesep 'Wav' num2str(i) num2str(j) '.htk'], 1000*time_range);
         % Take Mean of 8 bands if not already meaned.
         if size(ecog_ch,1) == 8 % take the average of the 8 bands for the high gamma
             ecog_ch = mean(ecog_ch,1);
