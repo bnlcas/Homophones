@@ -67,18 +67,20 @@ if bf_correct
     p_thresh = p_thresh/(size(ecog_c1,1) - length(ERPs.BadChans));
 end
 
-for j = 1:size(ecog_c1,1)
-    if (sum(j == ERPs.BadChans) == 0) % ignore badchans (t-test gives nans)
-        for k = 1:size(ecog_c1,2)
-            dat_p1 = squeeze(ecog_c1(j,k,:));
-            dat_p2 = squeeze(ecog_c2(j,k,:));
-
-            %% T-Test
-            [is_sig_ttest(j,k),~,~,tmp] = ttest2(dat_p1, dat_p2, 'Alpha', p_thresh);
-            stat_tstat(j,k) = abs(tmp.tstat);
-         end
-    end
-end
+is_sig_ttest = ttest2(ecog_c1, ecog_c2, 'Alpha', p_thresh, 'dim',3);
+% % % for j = 1:size(ecog_c1,1)
+% % %     if (sum(j == ERPs.BadChans) == 0) % ignore badchans (t-test gives nans)
+% % %         for k = 1:size(ecog_c1,2)
+% % %             dat_p1 = squeeze(ecog_c1(j,k,:));
+% % %             dat_p2 = squeeze(ecog_c2(j,k,:));
+% % % 
+% % %             %% T-Test
+% % %             test = ttest2(dat_p1, dat_p2, 'Alpha', p_thresh);
+% % %             [is_sig_ttest(j,k),~,~,tmp] = ttest2(dat_p1, dat_p2, 'Alpha', p_thresh);
+% % %             stat_tstat(j,k) = abs(tmp.tstat);
+% % %          end
+% % %     end
+% % % end
 
 %% Find Channels that show significant differences:
 sig_timepts_thresh = 1; % minimum number of significant time points for a channel to be significant

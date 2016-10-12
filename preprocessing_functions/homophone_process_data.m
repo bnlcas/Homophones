@@ -120,6 +120,15 @@ if detect_events_flag
         if ~exist(event_dir,'dir')
             mkdir(event_dir);
         end
+        % Sort Event by time
+        start_times = zeros(length(evnt),1);
+        for m = 1:length(evnt)
+            start_times(m) = evnt(m).StartTime;
+        end
+        [~,order] = sort(st_times);
+        evnt = evnt(order);
+    save(evnts(k).name,'evnt')
+end
         save([event_dir filesep blocks{i} '_evnt.mat'],'evnt');
     end
     
